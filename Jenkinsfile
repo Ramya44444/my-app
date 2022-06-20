@@ -23,6 +23,11 @@ node{
     }
    sh 'docker push ramyachandran05/myweb:0.0.2'
    }
+   stage('Nexus Image Push'){
+   sh "docker login -u admin -p admin 43.204.111.192:8083"
+   sh "docker tag ramyachandran05/myweb:0.0.2 43.204.111.192:8083/damo:1.0.0"
+   sh 'docker push 43.204.111.192:8083/damo:1.0.0'
+   }
    stage('Remove Previous Container'){
 	try{
 		sh 'docker rm -f tomcattest'
@@ -30,7 +35,7 @@ node{
 		//  do nothing if there is an exception
 	}
    stage('Docker deployment'){
-   sh 'docker run -d -p 8090:8080 --name tomcattest saidamo/myweb:0.0.2' 
+   sh 'docker run -d -p 8090:8080 --name tomcattest ramyachandran05/myweb:0.0.2' 
    }
 }
 }
